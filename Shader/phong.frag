@@ -98,7 +98,8 @@ vec4 shadePhong()
     vec3 c = kd * getColor(envmap, normal);
     c *= texture(diffTex, t.xy).rgb;
     c += ka;
-    c += ks * getColor(envmap, normalize(out_vec), s);
+    //c += ks * getColor(envmap, normalize(out_vec), s);
+    c += ks * getColor(envmap, normalize(out_vec), s)*0;
     return vec4(c, d);
 }
 
