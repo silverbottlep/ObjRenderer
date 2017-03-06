@@ -1,6 +1,6 @@
 folder_path = test/
 envmap_path = envmaps/envmap2.hdr
-theta_inc = 10
+theta_inc = 20
 phi_inc = 10
 phi_max = 20
 output_coord = 1
