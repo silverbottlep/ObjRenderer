@@ -25,6 +25,7 @@ struct Args
     int phi_max;
     float brightness;
     bool output_coord;
+    bool output_norm;
     unsigned render_size;
     unsigned output_size;
     bool reverse_normals;
@@ -87,32 +88,57 @@ void processModel(const std::string& rootPath,
             sprintf(fn, "%s/%d_%d.png", viewFolderPath.c_str(), theta, phi);
             cv::imwrite(fn, aa_image*255.0);
             
-            if(!args.output_coord)
-                continue;
-            
             // output vertex
-            ObjRenderer::setShaderOutputID(1);
-            image = ObjRenderer::genShading();
-            cv::GaussianBlur(image, image, cv::Size(filterSize, filterSize), 0, 0);
-            cv::resize(image, aa_image, cv::Size(args.output_size, args.output_size));
-            
-            sprintf(fn, "%s/%d_%d.exr", viewFolderPath.c_str(), theta, phi);
-            
-            fipImage hdr_image(FIT_RGBF, aa_image.cols, aa_image.rows, 96);
-            cv::Vec3f* data = (cv::Vec3f*)hdr_image.accessPixels();
-            
-            for(int i=0; i<aa_image.rows; i++)
-            {
-                for(int j=0; j<aa_image.cols; j++)
-                {
-                    const cv::Vec4f& c = aa_image.at<cv::Vec4f>(aa_image.rows-i-1, j);
-                    data[i*aa_image.rows+j][0] = c[0];
-                    data[i*aa_image.rows+j][1] = c[1];
-                    data[i*aa_image.rows+j][2] = c[2];
-                }
-            }
-            
-            hdr_image.save(fn);
+						if(args.output_coord){
+							ObjRenderer::setShaderOutputID(1);
+							image = ObjRenderer::genShading();
+							cv::GaussianBlur(image, image, cv::Size(filterSize, filterSize), 0, 0);
+							cv::resize(image, aa_image, cv::Size(args.output_size, args.output_size));
+
+							sprintf(fn, "%s/%d_%d_coord.exr", viewFolderPath.c_str(), theta, phi);
+
+							fipImage hdr_image(FIT_RGBF, aa_image.cols, aa_image.rows, 96);
+							cv::Vec3f* data = (cv::Vec3f*)hdr_image.accessPixels();
+
+							for(int i=0; i<aa_image.rows; i++)
+							{
+								for(int j=0; j<aa_image.cols; j++)
+								{
+									const cv::Vec4f& c = aa_image.at<cv::Vec4f>(aa_image.rows-i-1, j);
+									data[i*aa_image.rows+j][0] = c[0];
+									data[i*aa_image.rows+j][1] = c[1];
+									data[i*aa_image.rows+j][2] = c[2];
+								}
+							}
+
+							hdr_image.save(fn);
+						}
+						
+						// output normal
+						if(args.output_norm){
+							ObjRenderer::setShaderOutputID(4);
+							image = ObjRenderer::genShading();
+							cv::GaussianBlur(image, image, cv::Size(filterSize, filterSize), 0, 0);
+							cv::resize(image, aa_image, cv::Size(args.output_size, args.output_size));
+
+							sprintf(fn, "%s/%d_%d_norm.exr", viewFolderPath.c_str(), theta, phi);
+
+							fipImage hdr_image(FIT_RGBF, aa_image.cols, aa_image.rows, 96);
+							cv::Vec3f* data = (cv::Vec3f*)hdr_image.accessPixels();
+
+							for(int i=0; i<aa_image.rows; i++)
+							{
+								for(int j=0; j<aa_image.cols; j++)
+								{
+									const cv::Vec4f& c = aa_image.at<cv::Vec4f>(aa_image.rows-i-1, j);
+									data[i*aa_image.rows+j][0] = c[0];
+									data[i*aa_image.rows+j][1] = c[1];
+									data[i*aa_image.rows+j][2] = c[2];
+								}
+							}
+
+							hdr_image.save(fn);
+						}
         }
     }
 }
