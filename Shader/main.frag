@@ -7,6 +7,7 @@ out vec4 color;
 vec4 shadePhong();
 vec4 shadeCoord();
 vec4 shadeBRDF();
+vec4 shadeNorm();
 
 void main()
 {
@@ -19,7 +20,10 @@ void main()
 		color = shadePhong();
 		return;
 	case 3u:
-		color = shadeBRDF();
+	color = shadeBRDF();
+		return;
+	case 4u:
+	color = shadeNorm();
 		return;
     }
 }
