@@ -8,6 +8,7 @@
 #ifndef IMAGEUTILS_H
 #define	IMAGEUTILS_H
 
+#include <vector>
 #include <opencv/cv.h>
 #include <FreeImagePlus.h>
 
@@ -75,7 +76,7 @@ cv::Mat fi2mat(FIBITMAP* src)
     }
     else {
 
-        cv::vector<uchar> lut;
+        std::vector<uchar> lut;
         int n = pow(2, bpp);
         for (int i = 0; i < n; ++i)
         {

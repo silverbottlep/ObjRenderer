@@ -87,6 +87,7 @@ void ObjRenderer::init(unsigned size)
     fragList.push_back("Shader/coord.frag");
     fragList.push_back("Shader/phong.frag");
     fragList.push_back("Shader/brdf.frag");
+    fragList.push_back("Shader/norm.frag");
 
     shaderProgID = loadShaders("Shader/geo.vert", fragList);
 

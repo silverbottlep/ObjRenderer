@@ -64,7 +64,7 @@ LDLIBSOPTIONS=`pkg-config --libs opencv` `pkg-config --libs OpenEXR`
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/objrenderer: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/objrenderer ${OBJECTFILES} ${LDLIBSOPTIONS} -lGL -lglut -lGLU -lGLEW -lfreeimageplus
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/objrenderer ${OBJECTFILES} ${LDLIBSOPTIONS} -lGL -lglut -lGLU -lGLEW -lfreeimageplus -lfreeimage
 
 ${OBJECTDIR}/ObjRenderer.o: ObjRenderer.cpp 
 	${MKDIR} -p ${OBJECTDIR}
