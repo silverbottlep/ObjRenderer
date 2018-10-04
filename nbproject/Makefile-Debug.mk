@@ -39,7 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ShaderData.o \
 	${OBJECTDIR}/Viewer.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/makeMaterial.o
+	${OBJECTDIR}/MakeMaterial.o
 
 
 # C Compiler Flags
@@ -86,10 +86,10 @@ ${OBJECTDIR}/main.o: main.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g `pkg-config --cflags opencv`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
-${OBJECTDIR}/makeMaterial.o: makeMaterial.cpp 
+${OBJECTDIR}/MakeMaterial.o: MakeMaterial.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g `pkg-config --cflags opencv`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/makeMaterial.o makeMaterial.cpp
+	$(COMPILE.cc) -g `pkg-config --cflags opencv`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MakeMaterial.o MakeMaterial.cpp
 
 # Subprojects
 .build-subprojects:

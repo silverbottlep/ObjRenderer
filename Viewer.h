@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Viewer.h
  * Author: swl
  *
@@ -6,15 +6,14 @@
  */
 
 #ifndef VIEWER_H
-#define	VIEWER_H
+#define VIEWER_H
 
 class Viewer {
 public:
-    static void init();
-    static void run();
+  static void init();
+  static void run();
+
 private:
-    
 };
 
-#endif	/* VIEWER_H */
-
+#endif /* VIEWER_H */
