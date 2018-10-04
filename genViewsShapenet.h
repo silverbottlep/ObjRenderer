@@ -39,19 +39,17 @@ void processModel(const std::string& rootPath,
     ObjRenderer::nextSeed();
     
     char cmd[1024];
-    
+   
     std::string viewFolderPath = rootPath+
-            filePath.substr(0, filePath.length()-4)+"_views";
+       filePath.substr(0, filePath.length()-4)+"_views";
     
     sprintf(cmd, "rm -f -r %s", viewFolderPath.c_str());
     
     system(cmd);
     
-    mkdir(viewFolderPath.c_str(), 0777);
+    mkdir(viewFolderPath.c_str(), 0755);
     
     char fn[1024];
-    
-    
     
     for(int theta = 0; theta < 360; theta += args.theta_inc)
     {
@@ -64,14 +62,13 @@ void processModel(const std::string& rootPath,
             
             cv::Mat4f image;
             cv::Mat4f aa_image;   
-            
                     
             // output image
             ObjRenderer::setEyePos(eyePos*4.f);
             ObjRenderer::setShaderOutputID(2);
             image = ObjRenderer::genShading();
             
-            unsigned filterSize = round(double(args.render_size) / args.output_size)*2+1;
+            unsigned int filterSize = round(double(args.render_size) / args.output_size)*2+1;
             cv::GaussianBlur(image, image, cv::Size(filterSize, filterSize), 0, 0);
             cv::resize(image, aa_image, cv::Size(args.output_size, args.output_size));
             
@@ -85,8 +82,8 @@ void processModel(const std::string& rootPath,
                 }
             }
             
-            sprintf(fn, "%s/%d_%d.png", viewFolderPath.c_str(), theta, phi);
-            cv::imwrite(fn, aa_image*255.0);
+            sprintf(fn, "%s/render_%03d_%02d.png", viewFolderPath.c_str(), theta, phi);
+            cv::imwrite(fn, aa_image * 255.0);
             
             // output vertex
             if(args.output_coord){
@@ -95,7 +92,7 @@ void processModel(const std::string& rootPath,
             	cv::GaussianBlur(image, image, cv::Size(filterSize, filterSize), 0, 0);
             	cv::resize(image, aa_image, cv::Size(args.output_size, args.output_size));
             
-            	sprintf(fn, "%s/%d_%d_coord.exr", viewFolderPath.c_str(), theta, phi);
+            	sprintf(fn, "%s/cord_%03d_%02d.exr", viewFolderPath.c_str(), theta, phi);
             
             	fipImage hdr_image(FIT_RGBF, aa_image.cols, aa_image.rows, 96);
             	cv::Vec3f* data = (cv::Vec3f*)hdr_image.accessPixels();
@@ -121,7 +118,7 @@ void processModel(const std::string& rootPath,
             	cv::GaussianBlur(image, image, cv::Size(filterSize, filterSize), 0, 0);
             	cv::resize(image, aa_image, cv::Size(args.output_size, args.output_size));
             
-            	sprintf(fn, "%s/%d_%d_norm.exr", viewFolderPath.c_str(), theta, phi);
+            	sprintf(fn, "%s/norm_%03d_%02d.exr", viewFolderPath.c_str(), theta, phi);
             
             	fipImage hdr_image(FIT_RGBF, aa_image.cols, aa_image.rows, 96);
             	cv::Vec3f* data = (cv::Vec3f*)hdr_image.accessPixels();

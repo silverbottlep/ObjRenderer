@@ -8,6 +8,7 @@
 #ifndef IMAGEUTILS_H
 #define	IMAGEUTILS_H
 
+#include <string>
 #include <vector>
 #include <opencv/cv.h>
 #include <FreeImagePlus.h>
@@ -130,20 +131,21 @@ cv::Mat filter_envmap(const cv::Mat& map)
 cv::Mat loadImage(const std::string& path)
 {
     cv::Mat image;
-    
     fipImage fip_map;
-    
-    if(path.substr(path.length()-3, 3) == "hdr" ||
-        path.substr(path.length()-3, 3) == "tga")
+
+    size_t lastDotIndex = path.find_last_of('.');
+    std::string filesuffix = path.substr(lastDotIndex + 1);
+    std::transform(filesuffix.begin(), filesuffix.end(), filesuffix.begin(), ::tolower);
+
+    if(filesuffix == "hdr" || filesuffix == "tga")
     {
         fip_map.load(path.c_str());
         image = fi2mat(fip_map);
-        if(path.substr(path.length()-3, 3) == "tga")
+        if(filesuffix == "tga") {
             cv::flip(image, image, 0);
-    }
-    else if(path.substr(path.length()-6, 6) == "binary") // read brdf file
-    {
-    
+        }
+    } else if(filesuffix == "binary")  {
+        // read brdf file
         FILE* file = fopen(path.c_str(), "rb");
         cv::Vec3i dim;
 
@@ -173,8 +175,8 @@ cv::Mat loadImage(const std::string& path)
         
         fclose(file);
     }
-    else
-    {
+    else if(filesuffix == "jpg" ||  filesuffix == "jpeg" ||
+        filesuffix == "png" || filesuffix == "bmp") {
         image = cv::imread(path);
     }
     return image;

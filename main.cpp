@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     fscanf(file, "phi_inc = %d\n", &args.phi_inc);
     fscanf(file, "phi_max = %d\n", &args.phi_max);
     fscanf(file, "output_coord = %d\n", &args.output_coord);
-		fscanf(file, "output_norm = %d\n", &args.output_norm);
+	fscanf(file, "output_norm = %d\n", &args.output_norm);
     fscanf(file, "render_size = %d\n", &args.render_size);
     fscanf(file, "output_size = %d\n", &args.output_size);
     fscanf(file, "reverse_normals = %d\n", &args.reverse_normals);

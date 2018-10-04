@@ -24,6 +24,7 @@ void ShaderDataPhong::loadData(const tinyobj::material_t& mat,
     ks = getVec<glm::vec3>(mat.specular);
     d = mat.dissolve;
     s = mat.shininess;
+
     if(mat.diffuse_texname != "")
         diffTexID = ObjRenderer::getTexID(mtl_base_path+mat.diffuse_texname);
 }

@@ -49,10 +49,12 @@ GLuint ObjRenderer::getTexID(const std::string& path, bool flip)
     if (texPath2texID.find(path) == texPath2texID.end())
     {
         cv::Mat image = loadImage(path);
-        if(image.dims == 0)
+        if(image.dims == 0) {
             texPath2texID[path] = 0;
-        else
+        }
+        else {
             texPath2texID[path] = makeTex(image, flip);
+        }
     }
     return texPath2texID[path];
 }
@@ -442,8 +444,9 @@ void ObjRenderer::loadModel(const std::string& path, bool unitize)
         info.offset = current_size;
         info.size = it->second.size();
 
-        for (unsigned i = 0; i < it->second.size(); i++)
+        for (unsigned i = 0; i < it->second.size(); i++) {
             attributeData[current_size + i] = it->second[i];
+        }
         current_size += it->second.size();
 
         if (it->first < materials.size())
@@ -451,10 +454,11 @@ void ObjRenderer::loadModel(const std::string& path, bool unitize)
             const tinyobj::material_t& mat = materials[it->first];
             info.shaderData = makeMaterial(mat, mtl_base_path);
         }
-        if (info.shaderData->transparent())
+        if (info.shaderData->transparent()) {
             transparentMatGroupInfoList.push_back(info);
-        else
+        } else {
             opaqueMatGroupInfoList.push_back(info);
+        }
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
