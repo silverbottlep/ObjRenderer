@@ -44,8 +44,13 @@ glm::vec3 ObjRenderer::eyeFocus(0, 0, 0);
 glm::vec3 ObjRenderer::eyeUp(0, 1, 0);
 glm::vec3 ObjRenderer::eyePos(2, 2, 2);
 
+std::ifstream::pos_type getFileSize(const std::string &path) {
+  std::ifstream fin(path.c_str(), std::ifstream::ate | std::ifstream::binary);
+  return fin.tellg();
+}
+
 GLuint ObjRenderer::getTexID(const std::string &path, bool flip) {
-  if (texPath2texID.find(path) == texPath2texID.end()) {
+  if (getFileSize(path) && texPath2texID.find(path) == texPath2texID.end()) {
     cv::Mat image = loadImage(path);
     if (image.dims == 0) {
       texPath2texID[path] = 0;
